@@ -1,0 +1,91 @@
+[0]:/Users/zph/src/ocaml/sack/Makefile:2:	corebuild sack.native -package core_extended && \
+[1]:/Users/zph/src/ocaml/sack/Makefile:3:		mv sack.native dist/sack
+[2]:/Users/zph/src/ocaml/sack/sack.ml:4:module Sack = struct
+[3]:/Users/zph/src/ocaml/sack/sack.ml:7:      ("/Users/zph/src/ocaml/sack/pt.log", "59",
+[4]:/Users/zph/src/ocaml/sack/sack.ml:8:       "sack/sack.go:7:var debug = Debug(\"sack\")")
+[5]:/Users/zph/src/ocaml/sack/sack.ml:11:      "sack/pt.log:1:src/install:4:readonly BASE_URL=\"https://github.com/zph/go-sack/releases/download/$VERSION"
+[6]:/Users/zph/src/ocaml/sack/sack.ml:13:    let sack_shortcuts_line =
+[7]:/Users/zph/src/ocaml/sack/sack.ml:14:      "[0]:/Users/zph/src/ocaml/sack/pt.log:59:sack/sack.go:7:var debug = Debug(\"sack\")"
+[8]:/Users/zph/src/ocaml/sack/sack.ml:25:      let path = String.concat ~sep:"/" [home;".sack_shortcuts"] in
+[9]:/Users/zph/src/ocaml/sack/sack.ml:137:      let sack_shortcuts = results
+[10]:/Users/zph/src/ocaml/sack/sack.ml:141:      Out_channel.write_all ".sack_shortcuts" sack_shortcuts
+[11]:/Users/zph/src/ocaml/sack/sack.ml:164:  Command.run ~version:"0.1" ~build_info:"RWO" Sack.CLI.command
+[12]:/Users/zph/src/ocaml/sack/pt.log:1:src/install:4:readonly BASE_URL="https://github.com/zph/go-sack/releases/download/$VERSION/"
+[13]:/Users/zph/src/ocaml/sack/pt.log:2:src/install:21:    echo "Please manually install sack or \`mkdir $1\` and try again."
+[14]:/Users/zph/src/ocaml/sack/pt.log:3:src/install:38:  if [[ -x `which sack` ]];then
+[15]:/Users/zph/src/ocaml/sack/pt.log:4:src/install:39:    local ver=$(sack -v | egrep -o '\d+\.\d+\.\d+')
+[16]:/Users/zph/src/ocaml/sack/pt.log:5:src/install:52:  bin_path="${bin_dir}/sack"
+[17]:/Users/zph/src/ocaml/sack/pt.log:6:src/install:58:  echo "Installing sack"
+[18]:/Users/zph/src/ocaml/sack/pt.log:7:src/install:65:    get_and_chmod "sack"
+[19]:/Users/zph/src/ocaml/sack/pt.log:8:src/install:67:    get_and_chmod "sack.freebsd_amd64"
+[20]:/Users/zph/src/ocaml/sack/pt.log:9:src/install:69:    get_and_chmod "sack.linux_amd64"
+[21]:/Users/zph/src/ocaml/sack/pt.log:10:src/install:76:    echo "  https://github.com/zph/go-sack/issues"
+[22]:/Users/zph/src/ocaml/sack/pt.log:11:main.go:5:	"github.com/zph/go-sack/sack"
+[23]:/Users/zph/src/ocaml/sack/pt.log:12:main.go:16:var debug = Debug("sack:main")
+[24]:/Users/zph/src/ocaml/sack/pt.log:13:main.go:20:	sack.Execute()
+[25]:/Users/zph/src/ocaml/sack/pt.log:14:Makefile:1:search: dist/sack
+[26]:/Users/zph/src/ocaml/sack/pt.log:15:Makefile:7:edit: dist/sack
+[27]:/Users/zph/src/ocaml/sack/pt.log:16:Makefile:10:print: dist/sack
+[28]:/Users/zph/src/ocaml/sack/pt.log:17:Makefile:20:	go build -o dist/sack main.go; \
+[29]:/Users/zph/src/ocaml/sack/pt.log:18:Makefile:21:		GOARCH=amd64 GOOS=linux go build -o dist/sack.linux_amd64 main.go; \
+[30]:/Users/zph/src/ocaml/sack/pt.log:19:Makefile:22:		GOARCH=amd64 GOOS=freebsd go build -o dist/sack.freebsd_amd64 main.go; \
+[31]:/Users/zph/src/ocaml/sack/pt.log:20:Makefile:23:		go build -gcflags '-N' -o dist/sack.debug main.go;
+[32]:/Users/zph/src/ocaml/sack/pt.log:21:Makefile:29:	cp dist/sack ~/bin/sack && chmod +x ~/bin/sack
+[33]:/Users/zph/src/ocaml/sack/pt.log:22:shell_integration/sack.zsh:1:# alias S="sack -s"
+[34]:/Users/zph/src/ocaml/sack/pt.log:23:shell_integration/sack.zsh:2:# alias F="sack -e"
+[35]:/Users/zph/src/ocaml/sack/pt.log:24:README.md:1:# sack
+[36]:/Users/zph/src/ocaml/sack/pt.log:25:README.md:7:  [sack demo](http://showterm.io/8f3421bae1d48c2109e1d#fast)
+[37]:/Users/zph/src/ocaml/sack/pt.log:26:README.md:13:Sack outputs those shortcuts into `~/.sack_shortcuts` for easy editing/re-use across any terminal on the system.
+[38]:/Users/zph/src/ocaml/sack/pt.log:27:README.md:15:It's a reimplementation of [sack](https://github.com/zph/sack), which was a ruby re-implementation of the original bash script [sack](https://github.com/sampson-chen/sack).
+[39]:/Users/zph/src/ocaml/sack/pt.log:28:README.md:19:`wget -o ~/bin/sack https://github.com/zph/go-sack/releases/download/v0.3.0/sack && chmod +x ~/bin/sack`
+[40]:/Users/zph/src/ocaml/sack/pt.log:29:README.md:24:curl -sSL https://github.com/zph/go-sack/raw/master/src/install | bash -s
+[41]:/Users/zph/src/ocaml/sack/pt.log:30:README.md:32:curl -sSL https://github.com/zph/go-sack/raw/master/src/install | bash -s
+[42]:/Users/zph/src/ocaml/sack/pt.log:31:README.md:35:Check for your platform's bin on repo's [Release Page](https://github.com/zph/go-sack/releases).
+[43]:/Users/zph/src/ocaml/sack/pt.log:32:README.md:46:eval "$(sack init)"
+[44]:/Users/zph/src/ocaml/sack/pt.log:33:README.md:53:    sack -s SEARCH_TERM [DIRECTORY: defaults to current]
+[45]:/Users/zph/src/ocaml/sack/pt.log:34:README.md:61:    sack -e 1
+[46]:/Users/zph/src/ocaml/sack/pt.log:35:README.md:69:    sack -p
+[47]:/Users/zph/src/ocaml/sack/pt.log:36:README.md:75:   Sack - sack [searchterm] [optional directory]
+[48]:/Users/zph/src/ocaml/sack/pt.log:37:README.md:78:   Sack [global options] command [command options] [arguments...]
+[49]:/Users/zph/src/ocaml/sack/pt.log:38:README.md:103:  https://github.com/sampson-chen/sack.
+[50]:/Users/zph/src/ocaml/sack/pt.log:39:README.md:121:1. Fork it ( http://github.com/zph/go-sack/fork )
+[51]:/Users/zph/src/ocaml/sack/pt.log:40:bin/bump_version:3:file="sack/version.go"
+[52]:/Users/zph/src/ocaml/sack/pt.log:41:src/README.md.erb:1:# sack
+[53]:/Users/zph/src/ocaml/sack/pt.log:42:src/README.md.erb:7:  [sack demo](http://showterm.io/8f3421bae1d48c2109e1d#fast)
+[54]:/Users/zph/src/ocaml/sack/pt.log:43:src/README.md.erb:13:Sack outputs those shortcuts into `~/.sack_shortcuts` for easy editing/re-use across any terminal on the system.
+[55]:/Users/zph/src/ocaml/sack/pt.log:44:src/README.md.erb:15:It's a reimplementation of [sack](https://github.com/zph/sack), which was a ruby re-implementation of the original bash script [sack](https://github.com/sampson-chen/sack).
+[56]:/Users/zph/src/ocaml/sack/pt.log:45:src/README.md.erb:19:`wget -o ~/bin/sack https://github.com/zph/go-sack/releases/download/v0.3.0/sack && chmod +x ~/bin/sack`
+[57]:/Users/zph/src/ocaml/sack/pt.log:46:src/README.md.erb:24:curl -sSL https://github.com/zph/go-sack/raw/master/src/install | bash -s
+[58]:/Users/zph/src/ocaml/sack/pt.log:47:src/README.md.erb:32:curl -sSL https://github.com/zph/go-sack/raw/master/src/install | bash -s
+[59]:/Users/zph/src/ocaml/sack/pt.log:48:src/README.md.erb:35:Check for your platform's bin on repo's [Release Page](https://github.com/zph/go-sack/releases).
+[60]:/Users/zph/src/ocaml/sack/pt.log:49:src/README.md.erb:53:    sack -s SEARCH_TERM [DIRECTORY: defaults to current]
+[61]:/Users/zph/src/ocaml/sack/pt.log:50:src/README.md.erb:61:    sack -e 1
+[62]:/Users/zph/src/ocaml/sack/pt.log:51:src/README.md.erb:69:    sack -p
+[63]:/Users/zph/src/ocaml/sack/pt.log:52:src/README.md.erb:80:  https://github.com/sampson-chen/sack.
+[64]:/Users/zph/src/ocaml/sack/pt.log:53:src/README.md.erb:97:1. Fork it ( http://github.com/zph/go-sack/fork )
+[65]:/Users/zph/src/ocaml/sack/pt.log:54:bin/release:7:# github-release upload -u ${GH_USER} -r ${GH_REPO} -s $(cat ${GH_CREDENTIALS_FILE}) -t v0.4.0 -f dist/sack -n sack
+[66]:/Users/zph/src/ocaml/sack/pt.log:55:sack/display.go:1:package sack
+[67]:/Users/zph/src/ocaml/sack/pt.log:56:hooks/pre-commit:5:response=$(gofmt -l main.go sack/*.go)
+[68]:/Users/zph/src/ocaml/sack/pt.log:57:sack/helpers.go:1:package sack
+[69]:/Users/zph/src/ocaml/sack/pt.log:58:sack/sack.go:1:package sack
+[70]:/Users/zph/src/ocaml/sack/pt.log:59:sack/sack.go:7:var debug = Debug("sack")
+[71]:/Users/zph/src/ocaml/sack/pt.log:60:sack/search.go:1:package sack
+[72]:/Users/zph/src/ocaml/sack/pt.log:61:sack/search.go:15:	var debug = Debug("sack:search")
+[73]:/Users/zph/src/ocaml/sack/pt.log:62:sack/search.go:56:	var debug = Debug("sack:search")
+[74]:/Users/zph/src/ocaml/sack/pt.log:63:sack/search.go:69:	var debug = Debug("sack:search")
+[75]:/Users/zph/src/ocaml/sack/pt.log:64:sack/search.go:102:	var debug = Debug("sack:search")
+[76]:/Users/zph/src/ocaml/sack/pt.log:65:sack/search.go:142:		var debug = Debug("sack:search:error")
+[77]:/Users/zph/src/ocaml/sack/pt.log:66:sack/globals.go:1:package sack
+[78]:/Users/zph/src/ocaml/sack/pt.log:67:sack/globals.go:18:const searchTermFile string = ".sack_searchterm"
+[79]:/Users/zph/src/ocaml/sack/pt.log:68:sack/globals.go:19:const shortcutFilename string = ".sack_shortcuts"
+[80]:/Users/zph/src/ocaml/sack/pt.log:69:sack/version.go:1:package sack
+[81]:/Users/zph/src/ocaml/sack/pt.log:70:sack/shell_init.go:1:package sack
+[82]:/Users/zph/src/ocaml/sack/pt.log:71:sack/shell_init.go:10:    sack=$(which sack)
+[83]:/Users/zph/src/ocaml/sack/pt.log:72:sack/shell_init.go:12:    alias S="${sack} -s"
+[84]:/Users/zph/src/ocaml/sack/pt.log:73:sack/shell_init.go:13:    alias F="${sack} -e"
+[85]:/Users/zph/src/ocaml/sack/pt.log:74:sack/shell_init.go:20:	sh := "eval \"$(sack init)\""
+[86]:/Users/zph/src/ocaml/sack/pt.log:75:sack/edit.go:1:package sack
+[87]:/Users/zph/src/ocaml/sack/pt.log:76:sack/edit.go:13:// TODO: add multiple edits sack -e 1 2 3
+[88]:/Users/zph/src/ocaml/sack/pt.log:77:sack/cli.go:1:package sack
+[89]:/Users/zph/src/ocaml/sack/pt.log:78:sack/cli.go:12:	app.Name = "Sack"
+[90]:/Users/zph/src/ocaml/sack/pt.log:79:sack/cli.go:13:	app.Usage = "sack [searchterm] [optional directory]"
