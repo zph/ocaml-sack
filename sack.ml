@@ -10,7 +10,7 @@ module Sack = struct
        "sack/sack.go:7:var debug = Debug(\"sack\")")
 
     let raw_line =
-      "sack/pt.log:1:src/install:4:readonly BASE_URL=\"https://github.com/zph/go-sack/releases/download/$VERSION"
+      "sack/pt.log:1:src/install:4:readonly BASE_URL="
 
     let sack_shortcuts_line =
       "[0]:/Users/zph/src/ocaml/sack/pt.log:59:sack/sack.go:7:var debug = Debug(\"sack\")"
@@ -24,7 +24,8 @@ module Sack = struct
       (ix, filename, line_no, cont)
 
     let lines_debugging =
-      let path = String.concat ~sep:"/" ["/Users/zph/src/ocaml/sack"; shortcuts_file] in
+      let home = Sys.getenv_exn "HOME" in
+      let path = String.concat ~sep:"/" [home; "src/ocaml/sack"; shortcuts_file] in
       In_channel.read_lines path
                |> List.map ~f:to_tuple
 
