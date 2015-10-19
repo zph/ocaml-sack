@@ -142,7 +142,8 @@ module Sack = struct
 
     let to_output term () =
       let results = execute term in
-      write_to_console results;;
+      write_to_console results;
+      write_to_file results;;
 
       (*
       Line.print_indexed_lines results *)
@@ -159,7 +160,5 @@ module Sack = struct
   end
 end
 
-(*
 let () =
   Command.run ~version:"0.1" ~build_info:"RWO" Sack.CLI.command
- *)
