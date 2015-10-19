@@ -2,6 +2,8 @@ open Core.Std
 open Core_extended.Std
 
 module Sack = struct
+  let shortcuts_file = ".sack_shortcuts"
+
   module Samples = struct
     let tuple_line =
       ("/Users/zph/src/ocaml/sack/pt.log", "59",
@@ -12,24 +14,44 @@ module Sack = struct
 
     let sack_shortcuts_line =
       "[0]:/Users/zph/src/ocaml/sack/pt.log:59:sack/sack.go:7:var debug = Debug(\"sack\")"
-
   end
 
   module Shortcut = struct
+    let to_tuple line =
+      let f = String.split ~on:':' in
+      let ix :: filename :: line_no :: content = f line in
+      let cont = String.concat ~sep:":" content in
+      (ix, filename, line_no, cont)
+
+    let lines_debugging =
+      let path = String.concat ~sep:"/" ["/Users/zph/src/ocaml/sack"; shortcuts_file] in
+      In_channel.read_lines path
+               |> List.map ~f:to_tuple
+
+    let to_vim_fragment index =
+      let line =
+        match List.nth lines_debugging index with
+        | None -> ("","","","")
+        | Some x -> x
+      in
+      let (_, f, i, _) = line in
+      sprintf "-c 'tabe +%s %s'" i f
+
+    let full_vim_cmd ix =
+      let subs = List.map ~f:to_vim_fragment ix
+                 |> String.concat ~sep:" "
+      in
+      (* tabclose closes the first tab *)
+      sprintf "vim %s -c 'tabclose 1'" subs
+
     let lines () =
       let home =
         match Sys.getenv "HOME" with
         | None -> "~"
         | Some x -> x
       in
-      let path = String.concat ~sep:"/" [home;".sack_shortcuts"] in
+      let path = String.concat ~sep:"/" [home; shortcuts_file] in
       In_channel.read_all path
-
-    let to_tuple line =
-      let f = String.split ~on:':' in
-      let ix :: filename :: line_no :: content = f line in
-      let cont = String.concat ~sep:":" content in
-      (ix, filename, line_no, cont)
   end
 
   module Color = struct
@@ -109,20 +131,15 @@ module Sack = struct
 
     let colon_separated_output_lines lines =
       output_lines colon_sep_line lines
-
-    let print_indexed_lines lx =
-      space_separated_output_lines lx
-      |> String.concat ~sep:"\n"
-      |> print_string
   end
 
   module Search = struct
+    let search_tool = "pt"
+
     let execute (term : string) =
         let cwd = Sys.getcwd() in
-        Shell.run_lines "pt" ["--ignore-case"; "--"; term; cwd]
+        Shell.run_lines search_tool ["--ignore-case"; "--"; term; cwd]
         |> List.map ~f:Line.line_to_tuple
-
-    let append_char s c = s ^ String.make 1 c
 
     let format_and_join fn_format lines =
       lines
@@ -131,32 +148,46 @@ module Sack = struct
 
     let write_to_console results =
       let console_output = format_and_join Line.space_separated_output_lines results in
-      console_output |> print_string
+      console_output
+      |> print_string
+      |> print_newline
 
     let write_to_file results =
       let sack_shortcuts = results
                            |> Line.colon_separated_output_lines
                            |> String.concat ~sep:"\n"
       in
-      Out_channel.write_all ".sack_shortcuts" sack_shortcuts
+      Out_channel.write_all shortcuts_file sack_shortcuts
 
     let to_output term () =
       let results = execute term in
       write_to_console results;
       write_to_file results;;
-
-      (*
-      Line.print_indexed_lines results *)
-
   end
 
   module CLI = struct
-    let command =
+    let search =
       Command.basic
         ~summary:"Search for something"
         ~readme: (fun () -> "Detailed information")
-        Command.Spec.(empty +> anon ("search_term" %: string))
+        Command.Spec.(empty
+                      +> anon ("search_term" %: string))
         Search.to_output
+
+    let edit =
+      (* Placeholder for the edit command *)
+      Command.basic ~summary:"Output the vim command to edit multiple entries"
+        Command.Spec.(empty
+                     +> anon ("to_edit" %: int))
+        (fun i () ->
+           Shortcut.full_vim_cmd [i]
+           |> print_string
+        );;
+
+    let command =
+      Command.group
+        ~summary:"Search for Everything"
+        [ "search", search; "edit", edit ]
   end
 end
 
