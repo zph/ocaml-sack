@@ -160,37 +160,49 @@ module Sack = struct
       in
       Out_channel.write_all shortcuts_file sack_shortcuts
 
-    let to_output term () =
+    let to_output term =
       let results = execute term in
       write_to_console results;
       write_to_file results;;
   end
 
   module CLI = struct
-    let search =
-      Command.basic
-        ~summary:"Search for something"
-        ~readme: (fun () -> "Detailed information")
-        Command.Spec.(empty
-                      +> anon ("search_term" %: string))
-        Search.to_output
+    let search = ref false
+    let edit = ref false
+    let shell_init = ref false
+    let args = ref ""
+    let shell =
+"
+S(){
+  # S search_term
+  sack -s -- \"$*\"
+}
+F(){
+  # F 1 2 3
+  local result=$(sack -e -- \"$*\")
+  eval \"${result}\"
+}"
 
-    let edit =
-      (* Placeholder for the edit command *)
-      Command.basic ~summary:"Output the vim command to edit multiple entries"
-        Command.Spec.(empty
-                     +> anon ("to_edit" %: int))
-        (fun i () ->
-           Shortcut.full_vim_cmd [i]
-           |> print_string
-        );;
+    let args_to_int a =
+      String.split ~on:' ' a
+      |> List.map ~f:int_of_string
 
-    let command =
-      Command.group
-        ~summary:"Search for Everything"
-        [ "search", search; "edit", edit ]
+    let main =
+      let speclist = [("-s", Arg.Set search, "Puts Sack in Search Mode");
+                      ("-e", Arg.Set edit, "Edit mode");
+                      ("--init", Arg.Set shell_init, "Shell init");
+                      ("--", Arg.Rest (fun x -> args := x), "Catch the rest of args");
+                     ] in
+      let usage_msg = "Usage: " in
+      Arg.parse speclist print_endline usage_msg;
+      match (!search, !edit, !shell_init, !args) with
+      | (_,_,true,_) -> print_endline shell;
+      | (_,_, _, "") -> print_endline usage_msg;
+      | (true, _,_, _) -> (Search.to_output !args);
+      | (_, true,_, _) -> print_endline (Shortcut.full_vim_cmd (args_to_int !args));
+      | _ -> print_endline usage_msg;;
   end
 end
 
 let () =
-  Command.run ~version:"0.1" ~build_info:"RWO" Sack.CLI.command
+  Sack.CLI.main
