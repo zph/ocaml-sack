@@ -17,21 +17,27 @@ module Sack = struct
   end
 
   module Shortcut = struct
+    let home =
+      match Sys.getenv "HOME" with
+      | None -> "~"
+      | Some x -> x
+    let shortcuts = String.concat ~sep:"/" [home; shortcuts_file]
+    let shortcuts_debug =
+      String.concat ~sep:"/" [home; "src/ocaml/sack"; shortcuts_file]
+
     let to_tuple line =
       let f = String.split ~on:':' in
       let ix :: filename :: line_no :: content = f line in
       let cont = String.concat ~sep:":" content in
       (ix, filename, line_no, cont)
 
-    let lines_debugging =
-      let home = Sys.getenv_exn "HOME" in
-      let path = String.concat ~sep:"/" [home; "src/ocaml/sack"; shortcuts_file] in
+    let lines path =
       In_channel.read_lines path
                |> List.map ~f:to_tuple
 
     let to_vim_fragment index =
       let line =
-        match List.nth lines_debugging index with
+        match List.nth (lines shortcuts) index with
         | None -> ("","","","")
         | Some x -> x
       in
@@ -44,15 +50,6 @@ module Sack = struct
       in
       (* tabclose closes the first tab *)
       sprintf "vim %s -c 'tabclose 1'" subs
-
-    let lines () =
-      let home =
-        match Sys.getenv "HOME" with
-        | None -> "~"
-        | Some x -> x
-      in
-      let path = String.concat ~sep:"/" [home; shortcuts_file] in
-      In_channel.read_all path
   end
 
   module Color = struct
@@ -204,5 +201,7 @@ F(){
   end
 end
 
-let () =
+let main () =
+  print_string (Sys.getcwd ());
+  print_string (String.concat ~sep:" " (Shell.run_lines "pwd" []));
   Sack.CLI.main

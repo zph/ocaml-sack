@@ -1,0 +1,33 @@
+OASISFormat:  0.4
+OCamlVersion: >= 4.02.3
+Name:         sack
+Version:      0.1
+Maintainers:  Zander Hill
+#Homepage:     http://my_coolsite.com
+Synopsis:     Search tool wrapping Ag/Pt
+Authors:      zander@xargs.io
+License:      MIT
+#Plugins:      META (0.4), DevFiles (0.4)
+AlphaFeatures: ocamlbuild_more_args
+
+Description:
+  Search tool wrapping Ag/Pt
+
+# This is a comment and this below creates an binary program
+Executable sack
+  Path: src
+  BuildTools:ocamlbuild
+  install: true
+  MainIs: sack.ml
+  CompiledObject: native
+  BuildDepends: core, core_extended
+
+## Another comment, this builds a library called pg
+#  Library pg
+#  Path:         src
+## oasis will figure out the dependencies,
+## Just list the modules you want public,
+## Note that there's no .ml, just give the name
+#  Modules:      Pg
+#  CompiledObject: byte
+#  BuildDepends: some_package
