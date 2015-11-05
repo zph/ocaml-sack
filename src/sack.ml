@@ -3,6 +3,14 @@ open Core_extended.Std
 
 module Sack = struct
   let shortcuts_file = ".sack_shortcuts"
+  let search_tool = "pt"
+    let home =
+      match Sys.getenv "HOME" with
+      | None -> "~"
+      | Some x -> x
+    let shortcuts = String.concat ~sep:"/" [home; shortcuts_file]
+    let shortcuts_debug =
+      String.concat ~sep:"/" [home; "src/ocaml/sack"; shortcuts_file]
 
   module Samples = struct
     let tuple_line =
@@ -17,17 +25,9 @@ module Sack = struct
   end
 
   module Shortcut = struct
-    let home =
-      match Sys.getenv "HOME" with
-      | None -> "~"
-      | Some x -> x
-    let shortcuts = String.concat ~sep:"/" [home; shortcuts_file]
-    let shortcuts_debug =
-      String.concat ~sep:"/" [home; "src/ocaml/sack"; shortcuts_file]
-
     let to_tuple line =
       let f = String.split ~on:':' in
-      let ix :: filename :: line_no :: content = f line in
+      let (ix :: filename :: line_no :: content) = f line in
       let cont = String.concat ~sep:":" content in
       (ix, filename, line_no, cont)
 
@@ -132,12 +132,10 @@ module Sack = struct
   end
 
   module Search = struct
-    let search_tool = "pt"
-
     let execute (term : string) =
-        let cwd = Sys.getcwd() in
-        Shell.run_lines search_tool ["--ignore-case"; "--"; term; cwd]
-        |> List.map ~f:Line.line_to_tuple
+      let cwd = Sys.getcwd() in
+      Shell.run_lines ~expect:[0;1] search_tool ["--ignore-case"; "--"; term; cwd]
+      |> List.map ~f:Line.line_to_tuple
 
     let format_and_join fn_format lines =
       lines
@@ -155,7 +153,7 @@ module Sack = struct
                            |> Line.colon_separated_output_lines
                            |> String.concat ~sep:"\n"
       in
-      Out_channel.write_all shortcuts_file sack_shortcuts
+      Out_channel.write_all shortcuts sack_shortcuts
 
     let to_output term =
       let results = execute term in
